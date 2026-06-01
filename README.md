@@ -14,6 +14,17 @@ Ethos CareMap organizes documentation and advocacy work. It does not provide med
 - Build command: `npm run build`.
 - Build output: `dist/`.
 
+## Privacy and Safety Guardrails
+
+Ethos CareMap is a public demo and should be used with sample data only.
+
+- Do not enter real names, PHI, medical record numbers, addresses, phone numbers, SSNs, insurance IDs, or highly sensitive details.
+- Use initials, placeholders, or the built-in sample data.
+- Information entered in the app is stored only in the current browser using `localStorage`.
+- The app does not use a backend, external database, analytics, tracking, external API calls, or cloud upload.
+- Exported JSON files are created locally by the browser. Users are responsible for storing exported files securely.
+- The "Clear All Local Data" action removes app data from this browser, but it does not delete exported files.
+
 ## GitHub Pages Deployment
 
 The app uses relative asset paths such as `styles.css`, `app.js`, and `assets/caremap-mark.svg`, plus hash-based in-page navigation. That means it works correctly from the GitHub Pages repository subpath:

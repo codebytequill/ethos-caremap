@@ -56,19 +56,31 @@
       </aside>
 
       <main class="main">
+        <section class="demo-banner" aria-label="Demo mode privacy reminder">
+          <span data-icon="shield" aria-hidden="true"></span>
+          <div>
+            <strong>Demo Mode / Sample Data Only</strong>
+            <span>Use initials, placeholders, or sample data. Do not enter real names, PHI, IDs, addresses, phone numbers, SSNs, or insurance details.</span>
+          </div>
+        </section>
+
         <header class="topbar">
           <div>
             <p class="eyebrow">Care organization workspace</p>
             <h1>Ethos CareMap</h1>
           </div>
           <div class="topbar-actions">
+            <button class="button ghost" type="button" id="useSampleData">
+              <span data-icon="plus" aria-hidden="true"></span>
+              Sample Data
+            </button>
             <button class="button ghost" type="button" id="exportData">
               <span data-icon="download" aria-hidden="true"></span>
               Export
             </button>
             <button class="button danger-soft" type="button" id="clearData">
               <span data-icon="trash" aria-hidden="true"></span>
-              Clear
+              Clear Local Data
             </button>
           </div>
         </header>
@@ -121,6 +133,33 @@
               <div id="nextActions" class="action-stack"></div>
             </section>
           </div>
+
+          <section class="panel privacy-status-panel" aria-label="Privacy status">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Privacy status</p>
+                <h2>Local-only demo safeguards</h2>
+              </div>
+            </div>
+            <div class="privacy-status-grid">
+              <div class="privacy-status-item">
+                <span>Storage</span>
+                <strong>localStorage only</strong>
+              </div>
+              <div class="privacy-status-item">
+                <span>Backend</span>
+                <strong>none</strong>
+              </div>
+              <div class="privacy-status-item">
+                <span>Analytics</span>
+                <strong>none</strong>
+              </div>
+              <div class="privacy-status-item">
+                <span>External upload</span>
+                <strong>none</strong>
+              </div>
+            </div>
+          </section>
         </section>
 
         <section class="view" id="timeline" data-title="Timeline">
@@ -399,6 +438,58 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-backdrop" id="privacyModal" role="presentation" hidden>
+      <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="privacyModalTitle"
+        aria-describedby="privacyModalDescription"
+      >
+        <p class="eyebrow">Privacy & Safety</p>
+        <h2 id="privacyModalTitle">Public demo: use sample data only</h2>
+        <div id="privacyModalDescription" class="modal-copy">
+          <p>
+            This is a public demo site. Information you enter is stored only in this browser using localStorage.
+          </p>
+          <p>
+            Do not enter real names, PHI, medical record numbers, addresses, phone numbers, SSNs, insurance IDs, or highly sensitive details.
+          </p>
+          <p>
+            Use initials, placeholders, or sample data. Exported files are your responsibility to store securely.
+          </p>
+        </div>
+        <div class="modal-actions">
+          <button class="button primary" type="button" id="acknowledgePrivacy">I understand</button>
+          <button class="button ghost" type="button" id="sampleDataFromModal">Use Sample Data</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="clearDataModal" role="presentation" hidden>
+      <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="clearDataTitle"
+        aria-describedby="clearDataDescription"
+      >
+        <p class="eyebrow">Clear browser data</p>
+        <h2 id="clearDataTitle">Clear all local Ethos CareMap data?</h2>
+        <div id="clearDataDescription" class="modal-copy">
+          <p>
+            This removes all timeline events, contacts, records, questions, and preservation actions stored in this browser.
+          </p>
+          <p>
+            This does not delete exported files you already downloaded. Keep exported files somewhere secure.
+          </p>
+        </div>
+        <div class="modal-actions">
+          <button class="button danger" type="button" id="confirmClearData">Clear All Local Data</button>
+          <button class="button ghost" type="button" id="cancelClearData">Cancel</button>
+        </div>
+      </section>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>

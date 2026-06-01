@@ -1,4 +1,5 @@
 const STORAGE_KEY = "ethos-caremap-v1";
+const PRIVACY_NOTICE_KEY = "ethos-caremap-privacy-notice-acknowledged";
 
 const iconPaths = {
   dashboard: '<rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect>',
@@ -91,6 +92,10 @@ const defaultData = {
   ]
 };
 
+function createEmptyState() {
+  return { timeline: [], contacts: [], records: [], questions: [], preservation: [] };
+}
+
 let state = loadState();
 
 const selectors = {
@@ -107,6 +112,8 @@ const selectors = {
   recordBoard: document.querySelector("#recordBoard"),
   questionList: document.querySelector("#questionList"),
   preservationList: document.querySelector("#preservationList"),
+  privacyModal: document.querySelector("#privacyModal"),
+  clearDataModal: document.querySelector("#clearDataModal"),
   toast: document.querySelector("#toast")
 };
 
@@ -122,6 +129,7 @@ function hydrateIcons() {
 }
 
 function loadState() {
+  // localStorage is the only persistence layer. Data remains in this browser and is not sent to any backend.
   const saved = localStorage.getItem(STORAGE_KEY);
   if (!saved) return structuredClone(defaultData);
 
@@ -140,6 +148,7 @@ function loadState() {
 }
 
 function saveState() {
+  // localStorage write: saves app data only in this browser. There are no analytics, APIs, or cloud uploads.
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -202,6 +211,30 @@ function showToast(message) {
   selectors.toast.classList.add("show");
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => selectors.toast.classList.remove("show"), 2200);
+}
+
+function openModal(modal) {
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  const primaryButton = modal.querySelector("button");
+  primaryButton?.focus();
+}
+
+function closeModal(modal) {
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+function acknowledgePrivacyNotice() {
+  // localStorage write: records only that this browser has seen the privacy notice.
+  localStorage.setItem(PRIVACY_NOTICE_KEY, "true");
+  closeModal(selectors.privacyModal);
+}
+
+function showPrivacyNoticeIfNeeded() {
+  // localStorage read: checks this browser for the first-use privacy notice acknowledgement.
+  if (localStorage.getItem(PRIVACY_NOTICE_KEY) === "true") return;
+  openModal(selectors.privacyModal);
 }
 
 function emptyState(message) {
@@ -523,6 +556,23 @@ function wireDelegatedActions() {
 }
 
 function wireDataTools() {
+  document.querySelector("#useSampleData").addEventListener("click", () => {
+    state = structuredClone(defaultData);
+    saveState();
+    renderAll();
+    showToast("Sample data loaded.");
+  });
+
+  document.querySelector("#sampleDataFromModal").addEventListener("click", () => {
+    state = structuredClone(defaultData);
+    saveState();
+    acknowledgePrivacyNotice();
+    renderAll();
+    showToast("Sample data loaded.");
+  });
+
+  document.querySelector("#acknowledgePrivacy").addEventListener("click", acknowledgePrivacyNotice);
+
   document.querySelector("#exportData").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -535,10 +585,17 @@ function wireDataTools() {
   });
 
   document.querySelector("#clearData").addEventListener("click", () => {
-    const confirmed = window.confirm("Clear all locally stored CareMap data from this browser?");
-    if (!confirmed) return;
-    state = { timeline: [], contacts: [], records: [], questions: [], preservation: [] };
+    openModal(selectors.clearDataModal);
+  });
+
+  document.querySelector("#cancelClearData").addEventListener("click", () => {
+    closeModal(selectors.clearDataModal);
+  });
+
+  document.querySelector("#confirmClearData").addEventListener("click", () => {
+    state = createEmptyState();
     saveState();
+    closeModal(selectors.clearDataModal);
     renderAll();
     showToast("Local data cleared.");
   });
@@ -550,3 +607,4 @@ wireForms();
 wireDelegatedActions();
 wireDataTools();
 renderAll();
+showPrivacyNoticeIfNeeded();

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 - 2026-06-01
+
+- Added Privacy & Safety first-use notice for public demo use.
+- Added persistent "Demo Mode / Sample Data Only" banner.
+- Added Privacy Status panel confirming localStorage-only storage, no backend, no analytics, and no external upload.
+- Added "Use Sample Data" flow for safer testing.
+- Replaced the browser confirm dialog with a plain-language Clear All Local Data confirmation modal.
+- Documented privacy limits in README.
+- Added localStorage comments in code.
+
 ## 1.0.0 - 2026-05-31
 
 - Prepared Ethos CareMap MVP for GitHub Pages deployment.
