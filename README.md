@@ -88,3 +88,35 @@ For the source repository, upload:
 - `.gitignore`
 
 For manual GitHub Pages hosting, upload the contents of `dist/` after running `npm run build`.
+
+## Application Screenshots
+
+The screenshots below represent the current GitHub Pages deployment (v0.2.0) using sample/demo data only.
+
+## Live Demo
+
+[Launch Ethos CareMap](https://codebytequill.github.io/ethos-caremap/)
+
+## Dashboard
+
+![Dashboard](screenshots/Dashboard.jpeg)
+
+## Timeline
+
+![Timeline](screenshots/Timeline.jpeg)
+
+## Contacts
+
+![Contacts](screenshots/Contacts.jpeg)
+
+## Records
+
+![Records](screenshots/Records.jpeg)
+
+## Questions
+
+![Questions](screenshots/Questions.jpeg)
+
+## Preservation
+
+![Preservation](screenshots/Preservation.jpeg)
