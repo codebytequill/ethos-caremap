@@ -1,161 +1,79 @@
-# Ethos CareMap
+# Ethos CareMap MVP
 
-## Mission
+Ethos CareMap helps families organize medical events, records, facilities, contacts, timelines, and next steps during health crises, caregiving journeys, rehabilitation stays, hospitalizations, hospice situations, and end-of-life circumstances.
 
-Ethos CareMap is a caregiver-focused care coordination platform designed to help families organize medical events, records, facilities, contacts, timelines, advocacy efforts, and next steps during healthcare crises, rehabilitation stays, hospice situations, and end-of-life care.
+Ethos CareMap organizes documentation and advocacy work. It does not provide medical advice or legal advice.
 
-The goal is simple:
+## Framework and Build Setup
 
-Reduce confusion.
-Prevent important information from being lost.
-Help families advocate for the people they love.
+- Framework: none. This is a static vanilla HTML, CSS, and JavaScript app.
+- Runtime: browser only.
+- Storage: `localStorage`, under the key `ethos-caremap-v1`.
+- Backend: none.
+- External database: none.
+- Build command: `npm run build`.
+- Build output: `dist/`.
 
-Ethos CareMap is not intended to provide medical advice or legal advice.
+## GitHub Pages Deployment
 
----
+The app uses relative asset paths such as `styles.css`, `app.js`, and `assets/caremap-mark.svg`, plus hash-based in-page navigation. That means it works correctly from the GitHub Pages repository subpath:
 
-## Why This Project Exists
+`https://<your-github-username>.github.io/ethos-caremap-mvp/`
 
-Many families suddenly find themselves responsible for coordinating care across hospitals, rehabilitation facilities, specialists, insurance providers, attorneys, social workers, and family members.
+### Automatic Pages Deployment
 
-Important information often becomes fragmented across notebooks, emails, patient portals, phone calls, and paper records.
+1. Create a GitHub repository named `ethos-caremap-mvp`.
+2. Upload or push this project to the repository.
+3. In GitHub, go to `Settings` -> `Pages`.
+4. Set the Pages source to `GitHub Actions`.
+5. Push to the `main` branch.
 
-Ethos CareMap was created to provide structure during some of life's most difficult moments.
+The workflow at `.github/workflows/pages.yml` builds the static site and deploys the `dist/` folder.
 
----
+### Manual Pages Deployment
 
-## Core Principles
+Run:
 
-* Compassionate and calm design
-* Easy for non-technical users
-* Designed for caregivers experiencing stress, grief, or burnout
-* Focused on organization, documentation, and advocacy
-* Privacy-first approach
-* Mobile-friendly experience
+```sh
+npm run build
+```
 
----
+Then upload the contents of `dist/` to the branch or Pages source you use for static hosting.
 
-## Current MVP Features
+## Local Development
 
-### Timeline Builder
+Open `index.html` directly in a browser, or run:
 
-Track:
+```sh
+npm run preview
+```
 
-* Medical events
-* Admissions
-* Transfers
-* Procedures
-* Calls
-* Meetings
-* Notes
+Then visit:
 
----
+`http://127.0.0.1:4173/index.html`
 
-### Contacts Directory
+## Architecture Decisions
 
-Store and organize:
+- Static single-page app: Version 1 uses HTML, CSS, and JavaScript without a frontend framework so the demo is easy to audit, host, and maintain.
+- Local-first storage: No data is transmitted to a server. User-entered information stays in the browser unless exported or cleared.
+- Subpath-safe routing: Navigation uses hash fragments, so GitHub Pages refreshes and direct links work under `/ethos-caremap-mvp/`.
+- Derived dashboard: Counts and next actions are calculated from the source collections instead of duplicated as separate state.
+- Feature-shaped state: `timeline`, `contacts`, `records`, `questions`, and `preservation` map directly to the MVP workflows.
+- Accessible, calm UI: The visual system uses restrained healthcare-adjacent colors, readable spacing, clear forms, and visible status states.
 
-* Physicians
-* Nurses
-* Social workers
-* Facilities
-* Funeral homes
-* Attorneys
-* Family contacts
-* Other important stakeholders
+## Files to Upload
 
----
+For the source repository, upload:
 
-### Records Tracker
+- `index.html`
+- `styles.css`
+- `app.js`
+- `assets/`
+- `scripts/`
+- `.github/`
+- `package.json`
+- `README.md`
+- `CHANGELOG.md`
+- `.gitignore`
 
-Monitor:
-
-* Requested records
-* Received records
-* Missing records
-* Follow-up actions
-
----
-
-### Questions & Concerns Log
-
-Track:
-
-* Open questions
-* Resolved questions
-* Follow-up needs
-* Care team responses
-
----
-
-### Preservation Actions Tracker
-
-Document:
-
-* Certified letters
-* Emails
-* Phone calls
-* Hand-delivered notices
-* Advocacy actions
-
----
-
-### Case Dashboard
-
-Centralized visibility into:
-
-* Outstanding items
-* Missing records
-* Open questions
-* Recent activity
-* Recommended next actions
-
----
-
-## Privacy
-
-The current prototype uses local-only persistence.
-
-No protected health information is transmitted to external databases.
-
-Future versions will continue to prioritize privacy, security, transparency, and user control.
-
----
-
-## Testing Notes
-
-Initial testing identified a date-handling issue involving historical year values during timeline entry.
-
-The issue was documented and submitted for correction as part of the application's quality assurance process.
-
----
-
-## Project Status
-
-Prototype MVP
-
-Active Development
-
----
-
-## Future Roadmap
-
-### Version 2
-
-* Facility profiles
-* Medication tracking
-* Hospital stay summaries
-* Exportable case packets
-* Shared family collaboration
-
-### Version 3
-
-* AI-assisted timeline summarization
-* Smart record request workflows
-* Case chronology generation
-* Caregiver task management
-
----
-
-Built with compassion for caregivers, advocates, patients, and families.
-
+For manual GitHub Pages hosting, upload the contents of `dist/` after running `npm run build`.

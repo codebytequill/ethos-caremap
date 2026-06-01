@@ -1,0 +1,12 @@
+{
+  "name": "ethos-caremap-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A static, local-first care organization MVP for families navigating medical and caregiving situations.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check app.js",
+    "preview": "python3 -m http.server 4173"
+  }
+}

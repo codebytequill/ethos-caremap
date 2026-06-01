@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ethos CareMap</title>
+    <meta
+      name="description"
+      content="A calm, privacy-first care organization dashboard for families navigating medical events, records, contacts, and next steps."
+    />
+    <link rel="icon" href="assets/caremap-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary">
+        <a class="brand" href="#dashboard" aria-label="Ethos CareMap dashboard">
+          <img src="assets/caremap-mark.svg" alt="" />
+          <span>
+            <strong>Ethos</strong>
+            <small>CareMap</small>
+          </span>
+        </a>
+
+        <nav class="nav-list" aria-label="CareMap sections">
+          <button class="nav-item active" type="button" data-view="dashboard">
+            <span class="nav-icon" aria-hidden="true" data-icon="dashboard"></span>
+            Dashboard
+          </button>
+          <button class="nav-item" type="button" data-view="timeline">
+            <span class="nav-icon" aria-hidden="true" data-icon="timeline"></span>
+            Timeline
+          </button>
+          <button class="nav-item" type="button" data-view="contacts">
+            <span class="nav-icon" aria-hidden="true" data-icon="contacts"></span>
+            Contacts
+          </button>
+          <button class="nav-item" type="button" data-view="records">
+            <span class="nav-icon" aria-hidden="true" data-icon="records"></span>
+            Records
+          </button>
+          <button class="nav-item" type="button" data-view="questions">
+            <span class="nav-icon" aria-hidden="true" data-icon="questions"></span>
+            Questions
+          </button>
+          <button class="nav-item" type="button" data-view="preservation">
+            <span class="nav-icon" aria-hidden="true" data-icon="shield"></span>
+            Preservation
+          </button>
+        </nav>
+
+        <div class="privacy-note">
+          <strong>Local-first</strong>
+          <span>Information is stored in this browser unless exported or cleared.</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Care organization workspace</p>
+            <h1>Ethos CareMap</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="button ghost" type="button" id="exportData">
+              <span data-icon="download" aria-hidden="true"></span>
+              Export
+            </button>
+            <button class="button danger-soft" type="button" id="clearData">
+              <span data-icon="trash" aria-hidden="true"></span>
+              Clear
+            </button>
+          </div>
+        </header>
+
+        <section class="notice" aria-label="Use limitation">
+          <span data-icon="heart" aria-hidden="true"></span>
+          <p>
+            Ethos CareMap organizes documentation and advocacy work. It does not provide medical advice or legal advice.
+          </p>
+        </section>
+
+        <section class="view active" id="dashboard" data-title="Dashboard">
+          <div class="dashboard-grid">
+            <article class="metric-card">
+              <span>Timeline events</span>
+              <strong id="metricEvents">0</strong>
+            </article>
+            <article class="metric-card">
+              <span>Key contacts</span>
+              <strong id="metricContacts">0</strong>
+            </article>
+            <article class="metric-card urgent">
+              <span>Missing records</span>
+              <strong id="metricMissing">0</strong>
+            </article>
+            <article class="metric-card warm">
+              <span>Open questions</span>
+              <strong id="metricOpenQuestions">0</strong>
+            </article>
+          </div>
+
+          <div class="two-column">
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Case snapshot</p>
+                  <h2>Activity summary</h2>
+                </div>
+              </div>
+              <div id="activitySummary" class="summary-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Organizational focus</p>
+                  <h2>Next actions</h2>
+                </div>
+              </div>
+              <div id="nextActions" class="action-stack"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="timeline" data-title="Timeline">
+          <div class="split-view">
+            <form class="panel form-panel" id="timelineForm">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Timeline builder</p>
+                  <h2>Add event</h2>
+                </div>
+              </div>
+              <label>
+                Event title
+                <input name="title" type="text" placeholder="ER visit, family meeting, discharge call" required />
+              </label>
+              <div class="form-row">
+                <label>
+                  Date
+                  <input name="date" type="date" required />
+                </label>
+                <label>
+                  Time
+                  <input name="time" type="time" />
+                </label>
+              </div>
+              <label>
+                Facility involved
+                <input name="facility" type="text" placeholder="Hospital, rehab, hospice, clinic" />
+              </label>
+              <label>
+                Notes
+                <textarea name="notes" rows="4" placeholder="Document what happened, who was present, and what was requested."></textarea>
+              </label>
+              <button class="button primary" type="submit">
+                <span data-icon="plus" aria-hidden="true"></span>
+                Add event
+              </button>
+            </form>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Chronology</p>
+                  <h2>Recorded events</h2>
+                </div>
+              </div>
+              <div id="timelineList" class="item-list timeline-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="contacts" data-title="Contacts">
+          <div class="split-view">
+            <form class="panel form-panel" id="contactForm">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Contacts directory</p>
+                  <h2>Add contact</h2>
+                </div>
+              </div>
+              <label>
+                Name or organization
+                <input name="name" type="text" placeholder="Dr. Lee, County Records Office" required />
+              </label>
+              <label>
+                Role
+                <select name="role">
+                  <option>Doctor</option>
+                  <option>Nurse</option>
+                  <option>Social worker</option>
+                  <option>Facility</option>
+                  <option>Funeral home</option>
+                  <option>Attorney</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <div class="form-row">
+                <label>
+                  Phone
+                  <input name="phone" type="tel" placeholder="(555) 012-4400" />
+                </label>
+                <label>
+                  Email
+                  <input name="email" type="email" placeholder="name@example.com" />
+                </label>
+              </div>
+              <label>
+                Notes
+                <textarea name="notes" rows="3" placeholder="Availability, department, fax, preferred contact method."></textarea>
+              </label>
+              <button class="button primary" type="submit">
+                <span data-icon="plus" aria-hidden="true"></span>
+                Add contact
+              </button>
+            </form>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Directory</p>
+                  <h2>Important contacts</h2>
+                </div>
+              </div>
+              <div id="contactList" class="item-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="records" data-title="Records">
+          <div class="split-view">
+            <form class="panel form-panel" id="recordForm">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Records tracker</p>
+                  <h2>Add record request</h2>
+                </div>
+              </div>
+              <label>
+                Record name
+                <input name="name" type="text" placeholder="Discharge summary, medication list, imaging report" required />
+              </label>
+              <label>
+                Facility or source
+                <input name="source" type="text" placeholder="Hospital records department" />
+              </label>
+              <div class="form-row">
+                <label>
+                  Requested date
+                  <input name="requestedDate" type="date" />
+                </label>
+                <label>
+                  Status
+                  <select name="status">
+                    <option>Requested</option>
+                    <option>Received</option>
+                    <option>Missing</option>
+                    <option>Follow-up needed</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Notes
+                <textarea name="notes" rows="3" placeholder="Tracking number, promised date, delivery method."></textarea>
+              </label>
+              <button class="button primary" type="submit">
+                <span data-icon="plus" aria-hidden="true"></span>
+                Add record
+              </button>
+            </form>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Status board</p>
+                  <h2>Records</h2>
+                </div>
+              </div>
+              <div class="status-board" id="recordBoard"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="questions" data-title="Questions">
+          <div class="split-view">
+            <form class="panel form-panel" id="questionForm">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Questions and concerns</p>
+                  <h2>Add question</h2>
+                </div>
+              </div>
+              <label>
+                Question or concern
+                <input name="question" type="text" placeholder="Who approves the transfer?" required />
+              </label>
+              <label>
+                Owner
+                <input name="owner" type="text" placeholder="Case manager, doctor, family member" />
+              </label>
+              <div class="form-row">
+                <label>
+                  Due date
+                  <input name="dueDate" type="date" />
+                </label>
+                <label>
+                  Status
+                  <select name="status">
+                    <option>Open</option>
+                    <option>Resolved</option>
+                    <option>Follow-up needed</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Follow-up action
+                <textarea name="action" rows="3" placeholder="Call social worker, ask for written update, confirm paperwork."></textarea>
+              </label>
+              <button class="button primary" type="submit">
+                <span data-icon="plus" aria-hidden="true"></span>
+                Add question
+              </button>
+            </form>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Open loop log</p>
+                  <h2>Questions</h2>
+                </div>
+              </div>
+              <div id="questionList" class="item-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="preservation" data-title="Preservation">
+          <div class="split-view">
+            <form class="panel form-panel" id="preservationForm">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Preservation actions</p>
+                  <h2>Add action</h2>
+                </div>
+              </div>
+              <label>
+                Action type
+                <select name="type">
+                  <option>Certified letter</option>
+                  <option>Email</option>
+                  <option>Phone call</option>
+                  <option>Hand-delivered notice</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                Recipient
+                <input name="recipient" type="text" placeholder="Facility, department, individual" required />
+              </label>
+              <div class="form-row">
+                <label>
+                  Date sent
+                  <input name="date" type="date" required />
+                </label>
+                <label>
+                  Status
+                  <select name="status">
+                    <option>Sent</option>
+                    <option>Confirmed</option>
+                    <option>Follow-up needed</option>
+                    <option>Drafting</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                Notes
+                <textarea name="notes" rows="3" placeholder="Tracking number, delivery confirmation, person spoken with."></textarea>
+              </label>
+              <button class="button primary" type="submit">
+                <span data-icon="plus" aria-hidden="true"></span>
+                Add action
+              </button>
+            </form>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Documentation log</p>
+                  <h2>Preservation actions</h2>
+                </div>
+              </div>
+              <div id="preservationList" class="item-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

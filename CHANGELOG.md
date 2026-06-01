@@ -1,53 +1,20 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## 1.0.0 - 2026-05-31
 
----
+- Prepared Ethos CareMap MVP for GitHub Pages deployment.
+- Added zero-dependency static build output to `dist/`.
+- Added GitHub Actions workflow for Pages deployment.
+- Confirmed the app remains local-first and browser-based with no backend services or external databases.
+- Preserved the visible medical/legal advice disclaimer.
 
-## v0.1.0 – Foundation Release
+## 0.2.0 - 2026-05-30
 
-**Date:** May 31, 2026
+- Fixed Timeline date formatting for historical years such as `0001`.
+- Replaced JavaScript `Date` formatting for stored ISO dates with manual validation and display formatting.
 
-### Added
+## 0.1.0 - 2026-05-29
 
-* Initial Ethos CareMap repository
-* Comprehensive project README
-* Project mission documentation
-* Origin story documentation
-* Product scope documentation
-* Privacy notes
-* Testing log
-* Development roadmap
-* Development notes
-* Screenshots directory structure
-* MIT License
-
-### Notes
-
-This release establishes the foundational documentation, vision, and repository structure for Ethos CareMap.
-
-The project was inspired by real-world caregiving experiences involving hospitals, rehabilitation facilities, medical record coordination, advocacy efforts, and end-of-life care planning.
-
-Future releases will focus on prototype development, feature implementation, testing, and user feedback.
-
----
-
-## Planned Releases
-
-### v0.2.0
-
-* Facility profiles
-* Care team directory improvements
-* Enhanced timeline management
-
-### v0.3.0
-
-* Exportable case packets
-* Improved records tracking
-* Additional caregiver workflow tools
-
-### v1.0.0
-
-* Public MVP release
-* Complete caregiver workflow implementation
-* Production-ready documentation
+- Created the initial Ethos CareMap MVP.
+- Added Timeline Builder, Contacts Directory, Records Tracker, Questions and Concerns Log, Preservation Actions Tracker, and Case Dashboard.
+- Added local browser persistence, export, and clear-local-data controls.
